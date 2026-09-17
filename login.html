@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0f0f14;
+      color: white;
+    }
+
+    .login-box {
+      width: 90%;
+      max-width: 380px;
+      padding: 35px;
+      border-radius: 15px;
+      background: #191923;
+      box-shadow: 0 10px 35px #00000066;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      margin-bottom: 15px;
+      border: 1px solid #39394b;
+      border-radius: 8px;
+      background: #101018;
+      color: white;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 8px;
+      background: #7c3aed;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #6d28d9;
+    }
+
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      color: #f87171;
+      font-size: 14px;
+    }
+
+    .demo {
+      margin-top: 20px;
+      font-size: 12px;
+      color: #aaa;
+      line-height: 1.8;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-box">
+    <h2>Welcome Back</h2>
+
+    <form id="loginForm">
+      <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        required
+      />
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required
+      />
+
+      <button type="submit">Login</button>
+    </form>
+
+    <p id="message"></p>
+
+    <div class="demo">
+      <strong>Demo Accounts</strong><br />
+      Admin: admin / admin123<br />
+      User: marcus / user123
+    </div>
+  </div>
+
+  <script>
+    const users = [
+      {
+        username: "admin",
+        password: "admin123",
+        role: "admin",
+        name: "Administrator"
+      },
+      {
+        username: "user",
+        password: "user123",
+        role: "user",
+        name: "IamUser"
+      }
+    ];
+
+    const loginForm = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+
+    loginForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value.trim();
+      const password = document.getElementById("password").value;
+
+      const foundUser = users.find(function (user) {
+        return (
+          user.username === username &&
+          user.password === password
+        );
+      });
+
+      if (!foundUser) {
+        message.textContent = "Invalid username or password.";
+        return;
+      }
+
+      // Save the logged-in user
+      sessionStorage.setItem(
+        "loggedInUser",
+        JSON.stringify(foundUser)
+      );
+
+      // Redirect according to the user's role
+      if (foundUser.role === "admin") {
+        window.location.href = "admin-dashboard.html";
+      } else {
+        window.location.href = "user-dashboard.html";
+      }
+    });
+  </script>
+
+</body>
+</html>l
